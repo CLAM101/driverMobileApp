@@ -37,24 +37,28 @@ export default function AppHeader({ navigation, back }) {
           anchor={
             <Appbar.Action
               icon="menu"
-              color="black"
+              color="#0F3D3E"
               onPress={openMenu}
             />
           }
         >
           <Menu.Item
+            style={{ backgroundColor: "#E2DCC8" }}
             onPress={() => navigation.navigate("Settings")}
             title="Settings"
           />
           <Menu.Item
+            style={{ backgroundColor: "#E2DCC8" }}
             onPress={() => navigation.navigate("CurrentDelivery")}
             title="CurrentDelivery"
           />
           <Menu.Item
+            style={{ backgroundColor: "#E2DCC8" }}
             onPress={() => navigation.navigate("OrderHistory")}
             title="Order History"
           />
           <Menu.Item
+            style={{ backgroundColor: "#E2DCC8" }}
             onPress={logOut}
             title="Logout"
           />
@@ -63,3 +67,5 @@ export default function AppHeader({ navigation, back }) {
     </Appbar.Header>
   );
 }
+
+const style = StyleSheet.create({});

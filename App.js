@@ -2,7 +2,10 @@ import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
-import { Provider as PaperProvider } from "react-native-paper";
+import {
+  MD3LightTheme as DefaultTheme,
+  Provider as PaperProvider
+} from "react-native-paper";
 import { createStackNavigator } from "@react-navigation/stack";
 import DriverHome from "./components/driverhome";
 import DriverLogin from "./components/driverlogin";
@@ -10,7 +13,11 @@ import AppHeader from "./components/appheader";
 import { Provider } from "react-redux";
 import { store } from "./store";
 import { useSelector } from "react-redux";
-import { selectLoggedState, selectOrigin } from "./slices/navSlice";
+import {
+  selectLoggedState,
+  selectOrigin,
+  setActiveOrderDetail
+} from "./slices/navSlice";
 import DriverLoggedIn from "./components/driverloggedin";
 import axios from "axios";
 import * as Location from "expo-location";
@@ -24,6 +31,15 @@ import {
   setOrigin
 } from "./slices/navSlice";
 import { useDispatch } from "react-redux";
+const theme = {
+  roundness: 30,
+  version: 2,
+  colors: {
+    primary: "#E2DCC8",
+    secondary: "#0F3D3E",
+    tertiary: "#E2DCC8"
+  }
+};
 
 export default function AppWrapper() {
   return (
@@ -74,9 +90,16 @@ function App() {
             );
 
             if (response.data.status === true) {
+              console.log("travel info in App", response.data.travelInfo);
               dispatch(setActiveOrder(data.result._id));
               dispatch(setDestination(response.data.restLocation));
               dispatch(setAvailableCollection(true));
+              dispatch(
+                setActiveOrderDetail({
+                  travelInfo: response.data.travelInfo,
+                  restName: response.data.restName
+                })
+              );
             }
           })
           .catch((error) => {
@@ -149,7 +172,7 @@ function App() {
   console.log("logged state in app", loggedState);
 
   return (
-    <PaperProvider>
+    <PaperProvider theme={theme}>
       {loggedState === true ? <DriverLoggedIn /> : <DriverLogin />}
     </PaperProvider>
   );

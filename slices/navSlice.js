@@ -6,7 +6,8 @@ const initialState = {
   travelTimeInformation: null,
   loggedState: null,
   activeOrder: null,
-  availableCollection: null
+  availableCollection: null,
+  activeOrderDetail: null
 };
 
 export const navSlice = createSlice({
@@ -48,6 +49,15 @@ export const navSlice = createSlice({
         state
       );
       state.availableCollection = action.payload;
+    },
+    setActiveOrderDetail: (state, action) => {
+      console.log(
+        "action payload logged state",
+        action.payload,
+        "state",
+        state
+      );
+      state.activeOrderDetail = action.payload;
     }
   }
 });
@@ -58,7 +68,8 @@ export const {
   setTravelTimeInformation,
   setLoggedState,
   setActiveOrder,
-  setAvailableCollection
+  setAvailableCollection,
+  setActiveOrderDetail
 } = navSlice.actions;
 
 export const selectOrigin = (state) => state.nav.origin;
@@ -69,5 +80,6 @@ export const selectLoggedState = (state) => state.nav.loggedState;
 export const selectActiveOrder = (state) => state.nav.activeOrder;
 export const selectAvailableCollection = (state) =>
   state.nav.availableCollection;
+export const selectActiveOrderDetail = (state) => state.nav.activeOrderDetail;
 
 export default navSlice.reducer;

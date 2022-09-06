@@ -42,6 +42,7 @@ export default function NoDelivery({ navigation }) {
     if (availableCollection === true) {
       navigation.navigate("AcceptOrDecline");
     } else {
+      navigation.navigate("LottieLoadAnimation");
       axios({
         method: "POST",
         withCredentials: true,
@@ -71,6 +72,7 @@ export default function NoDelivery({ navigation }) {
         })
         .catch((error) => {
           console.log("get active order status error", error);
+          navigation.navigate("NoDelivery");
         });
     }
   }
@@ -78,11 +80,11 @@ export default function NoDelivery({ navigation }) {
   React.useEffect(() => {
     console.log("no delivery in current delivery use effect fired");
     getActiveOrderStatus();
-  }, [activeOrder, availableCollection]);
+  }, [availableCollection, activeOrder]);
 
   return (
     <View style={style.container}>
-      <Text>No Delivery</Text>
+      <Text style={style.topText}>No Active Deliveries</Text>
     </View>
   );
 }
@@ -91,6 +93,15 @@ const style = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    backgroundColor: "#0F3D3E"
+  },
+  topText: {
+    top: 20,
+    fontSize: 25,
+    fontWeight: "bold",
+    marginBottom: 25,
+    color: "#E2DCC8",
+    textAlign: "center"
   }
 });

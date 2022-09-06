@@ -7,7 +7,7 @@ export default function Settings({ navigation }) {
       <Text>Settings</Text>
       <Button
         title="login"
-        onPress={() => navigation.navigate("DriverHome")}
+        onPress={() => navigation.navigate("LottieLoadAnimation")}
       />
     </View>
   );

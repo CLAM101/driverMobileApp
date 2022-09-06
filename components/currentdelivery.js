@@ -6,7 +6,7 @@ import AcceptOrDecline from "./acceptordecline";
 import DriverEnRoute from "./driverenroute";
 import DriverCollected from "./drivercollected";
 import NoDelivery from "./nodelivery";
-import { useSelector } from "react-redux";
+import LottieLoadAnimation from "./lottieloadanimation";
 
 const Stack = createStackNavigator();
 
@@ -32,6 +32,10 @@ export default function CurrentDelivery({ navigation }) {
         <Stack.Screen
           name="NoDelivery"
           component={NoDelivery}
+        />
+        <Stack.Screen
+          name="LottieLoadAnimation"
+          component={LottieLoadAnimation}
         />
       </Stack.Navigator>
     </NavigationContainer>

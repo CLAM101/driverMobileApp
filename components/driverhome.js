@@ -25,8 +25,26 @@ export default function DriverHome({ navigation }) {
   }, [activeOrder, availableCollection]);
 
   return (
-    <View>
-      <Text>You are online and available to accept deliveries</Text>
+    <View style={style.container}>
+      <Text style={style.topText}>
+        You are online and available to accept deliveries
+      </Text>
     </View>
   );
 }
+
+const style = StyleSheet.create({
+  container: {
+    backgroundColor: "#0F3D3E",
+    flex: 1,
+    alignItems: "center"
+  },
+  topText: {
+    top: 20,
+    fontSize: 25,
+    fontWeight: "bold",
+    marginBottom: 25,
+    color: "#E2DCC8",
+    textAlign: "center"
+  }
+});

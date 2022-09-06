@@ -1,10 +1,11 @@
 import * as React from "react";
-import { View, Text, Button, StyleSheet } from "react-native";
+import { View, Text, Button, StyleSheet, TouchableOpacity } from "react-native";
 import { useSelector } from "react-redux";
 import {
   selectActiveOrder,
   selectDestination,
-  selectOrigin
+  selectOrigin,
+  selectActiveOrderDetail
 } from "../slices/navSlice";
 import { setOrigin, setDestination } from "../slices/navSlice";
 import axios from "axios";
@@ -12,6 +13,8 @@ import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
 import { useDispatch } from "react-redux";
 import MapViewDirections from "react-native-maps-directions";
+import { GOOGLE_API_KEY } from "@env";
+import * as Linking from "expo-linking";
 
 export default function DriverEnRoute({ navigation }) {
   let activeOrder = useSelector(selectActiveOrder);
@@ -20,6 +23,17 @@ export default function DriverEnRoute({ navigation }) {
   const dispatch = useDispatch();
 
   const mapRef = React.useRef(null);
+
+  function openNavHandlePress() {
+    Linking.openURL(
+      "https://www.google.com/maps/dir/?api=1&origin=" +
+        JSON.stringify(origin.coords.latitude) +
+        "," +
+        JSON.stringify(origin.coords.longitude) +
+        "&destination=" +
+        destination
+    );
+  }
 
   function convertDestination(destination) {
     console.log(
@@ -72,6 +86,7 @@ export default function DriverEnRoute({ navigation }) {
     e.preventDefault();
 
     // changes order status based on if driver accepts or declines collection
+    navigation.navigate("LottieLoadAnimation");
     axios({
       method: "POST",
       data: {
@@ -103,6 +118,7 @@ export default function DriverEnRoute({ navigation }) {
   React.useEffect(() => {
     if (!origin || !convertedDestination) return;
 
+    console.log("map ref use effect triggered DriverEnRoute");
     mapRef.current.fitToSuppliedMarkers(["origin", "destination"], {
       edgePadding: { top: 50, right: 50, bottom: 50, left: 50 }
     });
@@ -110,58 +126,72 @@ export default function DriverEnRoute({ navigation }) {
 
   return (
     <View style={style.container}>
-      <Text>Driver En Route</Text>
-      <MapView
-        ref={mapRef}
-        style={style.map}
-        initialRegion={{
-          latitude: origin.coords.latitude,
-          longitude: origin.coords.longitude,
-          latitudeDelta: 0.005,
-          longitudeDelta: 0.005
-        }}
-      >
-        {origin && convertedDestination && (
-          <MapViewDirections
-            origin={{
-              latitude: origin.coords.latitude,
-              longitude: origin.coords.longitude
-            }}
-            destination={{
-              latitude: convertedDestination.latitude,
-              longitude: convertedDestination.longitude
-            }}
-            apikey={GOOGLE_API_KEY}
-            strokeWidth={3}
-            strokeColor="black"
-          />
-        )}
+      <Text style={style.topText}>EnRoute to Restaurant</Text>
+      <View style={style.MapViewContainer}>
+        <MapView
+          ref={mapRef}
+          style={style.map}
+          mapType="mutedStandard"
+          initialRegion={{
+            latitude: origin.coords.latitude,
+            longitude: origin.coords.longitude,
+            latitudeDelta: 0.005,
+            longitudeDelta: 0.005
+          }}
+        >
+          {origin && convertedDestination && (
+            <MapViewDirections
+              origin={{
+                latitude: origin.coords.latitude,
+                longitude: origin.coords.longitude
+              }}
+              destination={{
+                latitude: convertedDestination.latitude,
+                longitude: convertedDestination.longitude
+              }}
+              apikey={GOOGLE_API_KEY}
+              strokeWidth={5}
+              strokeColor="#0F3D3E"
+            />
+          )}
 
-        {convertedDestination && (
-          <Marker
-            coordinate={{
-              latitude: convertedDestination.latitude,
-              longitude: convertedDestination.longitude
-            }}
-            title="destination"
-            identifier="destination"
-          />
-        )}
-        {origin?.coords && (
-          <Marker
-            coordinate={{
-              latitude: origin.coords.latitude,
-              longitude: origin.coords.longitude
-            }}
-            title="origin"
-            identifier="origin"
-          />
-        )}
-      </MapView>
-      <Button
-        title="Confirm Pickup"
+          {convertedDestination && (
+            <Marker
+              coordinate={{
+                latitude: convertedDestination.latitude,
+                longitude: convertedDestination.longitude
+              }}
+              title="destination"
+              identifier="destination"
+            />
+          )}
+          {origin?.coords && (
+            <Marker
+              coordinate={{
+                latitude: origin.coords.latitude,
+                longitude: origin.coords.longitude
+              }}
+              title="origin"
+              identifier="origin"
+            />
+          )}
+        </MapView>
+      </View>
+      <TouchableOpacity
+        title="confirmPickup"
         onPress={handlePress}
-      />
+        style={style.button}
+      >
+        <Text style={style.buttonText}>Confirm Pickup</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        title="openNav"
+        onPress={openNavHandlePress}
+        style={style.button}
+      >
+        <Text style={style.buttonText}>Open Navigation</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -170,11 +200,41 @@ const style = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    backgroundColor: "#0F3D3E"
+  },
+  MapViewContainer: {
+    borderWidth: 5,
+    borderColor: "#E2DCC8",
+    borderRadius: 5,
+    marginBottom: 40
   },
   map: {
-    top: 5,
-    width: 393,
-    height: 650
+    width: 300,
+    height: 400
+  },
+  button: {
+    alignItems: "center",
+    backgroundColor: "#E2DCC8",
+    padding: 20,
+    borderRadius: 30,
+    marginTop: 2,
+    marginLeft: 5,
+    elevation: 5,
+    width: 280,
+    shadowOffset: 15,
+    border: 5,
+    borderColor: "black",
+    marginBottom: 15
+  },
+  buttonText: {
+    fontSize: 20,
+    color: "#0F3D3E"
+  },
+  topText: {
+    fontSize: 30,
+    fontWeight: "bold",
+    marginBottom: 25,
+    color: "#E2DCC8"
   }
 });
