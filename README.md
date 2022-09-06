@@ -24,3 +24,23 @@ am experiencing some latency issues with maps on some occasions where the route 
 other touches like loading bars still to be added.
 
 Ive built out the space for order history and settings components but these are still to be built out as well.
+
+## 6th September Commit:
+
+styled all componenets except for settings and order history
+
+replaced all buttons with touchable opacities 
+
+included Lottie animations for loading between server calls 
+
+loading animation will present when checking for active delivry and between all operations that take place within the delivery process.
+
+added an automatic zoom to markers on map in EnRoute and DriverCollected componenets
+
+added touchable opacity linked to google maps URL to DrierEnRoute and DriverCollected components, user can now open the route of each leg of the delivery in the google maps app
+
+added additional distance checking in order to display all trip details on the acceptOrDecline componenet, all delivery detail is now presented to the driver on the accept or decline componenet 
+
+
+
+
