@@ -7,7 +7,8 @@ const initialState = {
   loggedState: null,
   activeOrder: null,
   availableCollection: null,
-  activeOrderDetail: null
+  activeOrderDetail: null,
+  orderHistory: null
 };
 
 export const navSlice = createSlice({
@@ -58,6 +59,15 @@ export const navSlice = createSlice({
         state
       );
       state.activeOrderDetail = action.payload;
+    },
+    setOrderHistory: (state, action) => {
+      console.log(
+        "action payload order history",
+        action.payload,
+        "state",
+        state
+      );
+      state.orderHistory = action.payload;
     }
   }
 });
@@ -69,7 +79,8 @@ export const {
   setLoggedState,
   setActiveOrder,
   setAvailableCollection,
-  setActiveOrderDetail
+  setActiveOrderDetail,
+  setOrderHistory
 } = navSlice.actions;
 
 export const selectOrigin = (state) => state.nav.origin;
@@ -81,5 +92,6 @@ export const selectActiveOrder = (state) => state.nav.activeOrder;
 export const selectAvailableCollection = (state) =>
   state.nav.availableCollection;
 export const selectActiveOrderDetail = (state) => state.nav.activeOrderDetail;
+export const selectOrderHistory = (state) => state.nav.orderHistory;
 
 export default navSlice.reducer;

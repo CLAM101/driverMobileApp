@@ -9,7 +9,7 @@ import {
 } from "../slices/navSlice";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { setActiveOrder } from "../slices/navSlice";
+import { setActiveOrder, setOrigin } from "../slices/navSlice";
 import MapView, { Marker } from "react-native-maps";
 import MapViewDirections from "react-native-maps-directions";
 import { GOOGLE_API_KEY } from "@env";
@@ -21,6 +21,7 @@ export default function DriverCollected({ navigation }) {
   let destination = useSelector(selectDestination);
   const dispatch = useDispatch();
   const mapRef = React.useRef(null);
+  let [zoom, setZoom] = React.useState(0);
 
   function openNavHandlePress() {
     Linking.openURL(
@@ -35,12 +36,22 @@ export default function DriverCollected({ navigation }) {
     );
   }
 
-  console.log(
-    "new destination in driver collected",
-    destination,
-    "origin in in driver collected",
-    origin
-  );
+  // console.log(
+  //   "new destination in driver collected",
+  //   destination,
+  //   "origin in in driver collected",
+  //   origin
+  // );
+
+  async function getLocation() {
+    let location = await Location.getCurrentPositionAsync({
+      enableHighAccuracy: true,
+      accuracy: Location.Accuracy.Highest,
+      maximumAge: 10000,
+      distanceInterval: 1000
+    });
+    return location;
+  }
 
   function handlePress(e) {
     e.preventDefault();
@@ -71,14 +82,26 @@ export default function DriverCollected({ navigation }) {
 
     console.log(
       "map ref use effect triggered",
+      "origin",
       origin.coords,
+      "destination",
       destination.coords
     );
 
     mapRef.current.fitToSuppliedMarkers(["origin", "destination"], {
       edgePadding: { top: 50, right: 50, bottom: 50, left: 50 }
     });
-  }, [origin, destination]);
+  }, [zoom]);
+
+  React.useEffect(() => {
+    let delay = 3000;
+
+    setTimeout(() => {
+      setZoom(2);
+    }, delay);
+
+    console.log("setZoom use Effect triggered", zoom);
+  }, []);
 
   return (
     <View style={style.container}>
@@ -145,7 +168,7 @@ export default function DriverCollected({ navigation }) {
         onPress={openNavHandlePress}
         style={style.button}
       >
-        <Text style={style.buttonText}>Open Nav</Text>
+        <Text style={style.buttonText}>Open Navigation</Text>
       </TouchableOpacity>
     </View>
   );

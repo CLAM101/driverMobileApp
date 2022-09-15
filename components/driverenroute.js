@@ -22,6 +22,15 @@ export default function DriverEnRoute({ navigation }) {
   let destination = useSelector(selectDestination);
   const dispatch = useDispatch();
 
+  let [zoom, setZoom] = React.useState(0);
+
+  console.log(
+    "origin DriverEnRoute",
+    origin,
+    "Destination Driver En Route",
+    destination
+  );
+
   const mapRef = React.useRef(null);
 
   function openNavHandlePress() {
@@ -36,12 +45,12 @@ export default function DriverEnRoute({ navigation }) {
   }
 
   function convertDestination(destination) {
-    console.log(
-      "destination in convert function",
-      destination,
-      "destination typeof",
-      typeof destination
-    );
+    // console.log(
+    //   "destination in convert function",
+    //   destination,
+    //   "destination typeof",
+    //   typeof destination
+    // );
 
     if (typeof destination !== "string") return;
 
@@ -116,13 +125,26 @@ export default function DriverEnRoute({ navigation }) {
   }
 
   React.useEffect(() => {
-    if (!origin || !convertedDestination) return;
+    let delay = 3000;
 
-    console.log("map ref use effect triggered DriverEnRoute");
-    mapRef.current.fitToSuppliedMarkers(["origin", "destination"], {
-      edgePadding: { top: 50, right: 50, bottom: 50, left: 50 }
-    });
-  }, [origin, convertedDestination]);
+    setTimeout(() => {
+      setZoom(2);
+    }, delay);
+
+    console.log("setZoom use Effect triggered", zoom);
+  }, []);
+
+  React.useEffect(() => {
+    let mounted = true;
+    if (mounted) {
+      if (!origin || !convertedDestination) return;
+
+      console.log("map ref use effect triggered DriverEnRoute");
+      mapRef.current.fitToSuppliedMarkers(["origin", "destination"], {
+        edgePadding: { top: 50, right: 50, bottom: 50, left: 50 }
+      });
+    }
+  }, [zoom]);
 
   return (
     <View style={style.container}>

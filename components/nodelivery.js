@@ -31,12 +31,12 @@ export default function NoDelivery({ navigation }) {
   const availableCollection = useSelector(selectAvailableCollection);
   const activeOrder = useSelector(selectActiveOrder);
 
-  console.log(
-    "available collection state in no delivery",
-    availableCollection,
-    "active order state in do delivery",
-    activeOrder
-  );
+  // console.log(
+  //   "available collection state in no delivery",
+  //   availableCollection,
+  //   "active order state in do delivery",
+  //   activeOrder
+  // );
 
   async function getActiveOrderStatus() {
     if (availableCollection === true) {
@@ -80,7 +80,7 @@ export default function NoDelivery({ navigation }) {
   React.useEffect(() => {
     console.log("no delivery in current delivery use effect fired");
     getActiveOrderStatus();
-  }, [availableCollection, activeOrder]);
+  }, [availableCollection]);
 
   return (
     <View style={style.container}>

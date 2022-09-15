@@ -19,7 +19,7 @@ export default function AppHeader({ navigation, back }) {
       url: "http://10.0.2.2:3000/drivers/logout",
       withCredentials: true
     }).then((response) => {
-      console.log("response status check log driver logged in", response);
+      // console.log("response status check log driver logged in", response);
       if (response.data === false) {
         dispatch(setLoggedState(false));
       }
@@ -29,7 +29,9 @@ export default function AppHeader({ navigation, back }) {
   return (
     <Appbar.Header>
       {back ? <Appbar.BackAction onPress={navigation.goBack} /> : null}
-      <Appbar.Content title="Budget Bites" />
+      <Appbar.Content
+        title={<Text style={style.headerText}>Budget Bites</Text>}
+      />
       {!back ? (
         <Menu
           visible={visible}
@@ -45,22 +47,22 @@ export default function AppHeader({ navigation, back }) {
           <Menu.Item
             style={{ backgroundColor: "#E2DCC8" }}
             onPress={() => navigation.navigate("Settings")}
-            title="Settings"
+            title={<Text style={style.menuText}>Settings</Text>}
           />
           <Menu.Item
             style={{ backgroundColor: "#E2DCC8" }}
             onPress={() => navigation.navigate("CurrentDelivery")}
-            title="CurrentDelivery"
+            title={<Text style={style.menuText}>Current Delivery</Text>}
           />
           <Menu.Item
             style={{ backgroundColor: "#E2DCC8" }}
             onPress={() => navigation.navigate("OrderHistory")}
-            title="Order History"
+            title={<Text style={style.menuText}>Order History</Text>}
           />
           <Menu.Item
             style={{ backgroundColor: "#E2DCC8" }}
             onPress={logOut}
-            title="Logout"
+            title={<Text style={style.menuText}>Logout</Text>}
           />
         </Menu>
       ) : null}
@@ -68,4 +70,14 @@ export default function AppHeader({ navigation, back }) {
   );
 }
 
-const style = StyleSheet.create({});
+const style = StyleSheet.create({
+  headerText: {
+    color: "#0F3D3E",
+    fontWeight: "bold",
+    fontSize: 30
+  },
+  menuText: {
+    fontSize: 20,
+    fontWeight: "bold"
+  }
+});

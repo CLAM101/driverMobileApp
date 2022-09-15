@@ -72,7 +72,7 @@ export default function AcceptOrDecline({ navigation }) {
         console.log(res);
 
         dispatch(setAvailableCollection(null));
-        navigation.navigate("DriverEnRoute");
+        navigation.navigate("noDelivery");
       })
       .catch(function (error) {
         console.log("error on login", error);

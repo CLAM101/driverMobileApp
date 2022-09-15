@@ -37,7 +37,9 @@ const theme = {
   colors: {
     primary: "#E2DCC8",
     secondary: "#0F3D3E",
-    tertiary: "#E2DCC8"
+    tertiary: "#E2DCC8",
+    accent: "#0F3D3E",
+    text: "#0F3D3E"
   }
 };
 
@@ -51,6 +53,7 @@ export default function AppWrapper() {
 
 function App() {
   const dispatch = useDispatch();
+
   // gets current driver location
   async function getLocation() {
     let location = await Location.getCurrentPositionAsync({
