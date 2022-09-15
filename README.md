@@ -41,6 +41,19 @@ added touchable opacity linked to google maps URL to DrierEnRoute and DriverColl
 
 added additional distance checking in order to display all trip details on the acceptOrDecline componenet, all delivery detail is now presented to the driver on the accept or decline componenet 
 
+## 15th September commit:
+
+styled the rest of the app
+
+fixed issue where autozoom wasnt working on map views when loaded via check order or when transitioning from driver en route to driver collected
+
+added order history screen with basic table and pagination
+
+I have now started on subscriber mobile app, which is being built in react Native with Typescript. 
+
+all related repos are linked below. 
 
 
-
+API: https://github.com/CLAM101/foodappapi.git 
+RestWebApp: https://github.com/CLAM101/restWebApp.git 
+SubMobileApp: https://github.com/CLAM101/subMobileApp.git 
